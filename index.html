@@ -8,13 +8,14 @@
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400&display=swap');
 
         :root {
-            --bg-color: #ffe6e9;
-            --env-dark: #c0392b;
-            --env-light: #e74c3c;
-            --env-flap: #d35400;
-            --letter-bg: #fffbf2;
-            --text-color: #2c3e50;
-            --gold: #f1c40f;
+            --bg-color: #0a0a0a; /* Deep black background */
+            --env-dark: #4a0000; /* Dark crimson */
+            --env-light: #730000; /* Medium crimson */
+            --env-flap: #5e0000;
+            --letter-bg: #1a1a1a; /* Dark charcoal for the letter */
+            --text-color: #ffb3b3; /* Soft red/pink text */
+            --text-heading: #ff3333; /* Bright red heading */
+            --gold: #b38b22;
         }
 
         * {
@@ -25,6 +26,7 @@
 
         body {
             background-color: var(--bg-color);
+            background-image: radial-gradient(circle at center, #1a0000 0%, #000000 100%);
             font-family: 'Poppins', sans-serif;
             height: 100vh;
             width: 100vw;
@@ -32,7 +34,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1200px;
+            perspective: 1500px;
         }
 
         /* --- Screens --- */
@@ -45,7 +47,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+            transition: opacity 1s ease, visibility 1s ease;
             opacity: 0;
             visibility: hidden;
         }
@@ -59,26 +61,27 @@
         #tap-me-text {
             font-family: 'Dancing Script', cursive;
             font-size: 4rem;
-            color: var(--env-dark);
+            color: var(--text-heading);
             cursor: pointer;
-            animation: pulse 1.5s infinite;
+            text-shadow: 0 0 15px rgba(255, 51, 51, 0.5);
+            animation: pulse 2s ease-in-out infinite;
             padding: 20px;
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+            0% { transform: scale(1); text-shadow: 0 0 15px rgba(255, 51, 51, 0.5); }
+            50% { transform: scale(1.05); text-shadow: 0 0 25px rgba(255, 51, 51, 0.8); }
+            100% { transform: scale(1); text-shadow: 0 0 15px rgba(255, 51, 51, 0.5); }
         }
 
         /* --- Screen 2 & 3: Envelope & Letter --- */
         .scene {
             position: relative;
             width: 90vw;
-            max-width: 400px;
-            height: 250px;
+            max-width: 450px;
+            height: 280px;
             transform-style: preserve-3d;
-            transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .envelope {
@@ -86,10 +89,11 @@
             width: 100%;
             height: 100%;
             background: var(--env-dark);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+            border-radius: 4px;
         }
 
-        /* Envelope Flaps using Clip-Path */
+        /* Envelope Flaps */
         .flap-left {
             position: absolute;
             width: 100%;
@@ -112,7 +116,7 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: #d94232;
+            background: #800000;
             clip-path: polygon(0 100%, 50% 50%, 100% 100%);
             z-index: 4;
         }
@@ -125,7 +129,7 @@
             clip-path: polygon(0 0, 50% 50%, 100% 0);
             z-index: 5;
             transform-origin: top;
-            transition: transform 0.8s ease, z-index 0s 0.4s;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0s 0.4s;
         }
 
         /* Stamp */
@@ -134,21 +138,25 @@
             top: 60%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: var(--gold);
-            width: 60px;
-            height: 60px;
+            background: radial-gradient(circle, var(--gold), #8a6912);
+            width: 65px;
+            height: 65px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: bold;
-            color: #fff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            color: #2a2a2a;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5), inset 0 0 5px rgba(255,255,255,0.3);
             z-index: 6;
             cursor: pointer;
-            transition: opacity 0.3s;
+            transition: opacity 0.4s ease, transform 0.2s ease;
+        }
+
+        .stamp:hover {
+            transform: translate(-50%, -50%) scale(1.05);
         }
 
         /* Letter */
@@ -159,9 +167,10 @@
             width: 90%;
             height: 95%;
             background: var(--letter-bg);
+            border: 1px solid #333;
             z-index: 2;
-            transition: transform 1s ease, width 1s ease, height 1s ease, left 1s ease, bottom 1s ease, padding 1s ease;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -171,23 +180,32 @@
         .letter-content {
             padding: 20px;
             opacity: 0;
-            transition: opacity 1s 0.5s;
+            transition: opacity 1s 0.6s;
             height: 100%;
             overflow-y: auto;
+            /* Custom scrollbar for dark theme */
+            scrollbar-width: thin;
+            scrollbar-color: var(--env-dark) var(--letter-bg);
         }
+
+        .letter-content::-webkit-scrollbar { width: 6px; }
+        .letter-content::-webkit-scrollbar-track { background: var(--letter-bg); }
+        .letter-content::-webkit-scrollbar-thumb { background-color: var(--env-dark); border-radius: 10px; }
 
         .letter-content h1 {
             font-family: 'Dancing Script', cursive;
-            color: var(--env-dark);
-            margin-bottom: 10px;
-            font-size: 2.2rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+            font-size: 2.5rem;
             text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
         .letter-content p {
-            line-height: 1.6;
+            line-height: 1.8;
             color: var(--text-color);
             margin-bottom: 15px;
+            font-size: 1.05rem;
         }
 
         .instruction {
@@ -197,17 +215,18 @@
             transform: translate(-50%, -50%);
             font-family: 'Dancing Script', cursive;
             font-size: 2rem;
-            color: var(--env-dark);
+            color: var(--text-heading);
             opacity: 0;
             transition: opacity 0.5s ease;
             pointer-events: none;
             white-space: nowrap;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
         }
 
-        /* --- State Classes --- */
-        /* State 2: Envelope Open & Slanted */
+        /* --- States --- */
+        /* State 2: Envelope Slanted */
         .scene.is-slanted {
-            transform: rotateX(55deg) rotateZ(-15deg) scale(1.1) translateY(50px);
+            transform: rotateX(55deg) rotateZ(-15deg) scale(1.15) translateY(40px);
         }
 
         .scene.is-slanted .flap-top {
@@ -221,31 +240,37 @@
         }
 
         .scene.is-slanted .letter {
-            transform: translateY(-80px);
+            transform: translateY(-90px);
             cursor: pointer;
-            z-index: 4; /* Move in front of bottom flap */
+            z-index: 4; 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
         }
         
         .scene.is-slanted .instruction.show {
             opacity: 1;
         }
 
-        /* State 3: Reading Letter */
+        .scene.is-slanted .letter:hover {
+            transform: translateY(-100px);
+        }
+
+        /* State 3: Reading */
         .scene.is-reading {
             transform: rotateX(0deg) rotateZ(0deg) scale(1) translateY(0);
         }
 
         .scene.is-reading .letter {
             transform: translateY(0);
-            bottom: -20vh; /* Adjust based on mobile vs desktop */
+            bottom: -15vh; 
             left: -5vw;
             width: 100vw;
-            height: 85vh; /* Responsive to content */
-            max-height: 90vh;
-            padding: 20px;
+            height: 80vh; 
+            max-height: 85vh;
+            padding: 30px;
             z-index: 10;
             cursor: auto;
-            border-radius: 15px;
+            border-radius: 10px;
+            border: 1px solid #400; /* Subtle red border */
         }
 
         .scene.is-reading .letter-content {
@@ -257,30 +282,43 @@
             display: none;
         }
 
-        /* --- Hearts Particle Effect --- */
-        .heart {
+        /* --- Bubble Hearts Particle Effect --- */
+        .bubble-heart {
             position: absolute;
-            font-size: 1.5rem;
-            color: #e74c3c;
-            user-select: none;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), rgba(255, 50, 50, 0.1), transparent);
+            box-shadow: inset -5px -5px 15px rgba(255, 0, 0, 0.1), 0 0 10px rgba(255, 50, 50, 0.2);
+            backdrop-filter: blur(2px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgba(255, 50, 50, 0.8);
+            text-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
             pointer-events: none;
-            animation: floatUp 4s ease-in forwards;
+            animation: floatBubble var(--duration) ease-in forwards;
             z-index: 20;
         }
 
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
-            100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+        .bubble-heart::before {
+            content: '❤️';
+            font-size: 50%; /* Heart is scaled to fit inside bubble */
         }
 
-        /* Mobile Adjustments */
+        @keyframes floatBubble {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1.5) translateX(var(--drift)); opacity: 0; }
+        }
+
+        /* Desktop Adjustments */
         @media (min-width: 768px) {
             .scene.is-reading .letter {
                 left: -20vw;
                 width: 130vw;
                 height: 70vh;
                 max-width: 800px;
-                border-radius: 10px;
+                border-radius: 8px;
             }
         }
     </style>
@@ -303,11 +341,14 @@
                     <div class="letter-content">
                         <h1>Happy Anniversary!</h1>
                         <p>My dearest,</p>
-                        <p>I wanted to surprise you with something a little different this year. Every day with you feels like a beautiful adventure, and I am so grateful to have you by my side.</p>
-                        <p>Thank you for all the love, the laughs, and the endless support. You mean the absolute world to me.</p>
-                        <p>Here's to many more years, more memories, and more love.</p>
-                        <p>Forever yours,<br>❤️</p>
-                        </div>
+                        <p>Another year of laughter, shared dreams, and endless support. Every moment with you is a treasure, and I wanted to surprise you with something a little different this year.</p>
+                        <p>Thank you for all the love and for making every day brighter. You mean the absolute world to me.</p>
+                        <p>Here's to many more years, more memories, and more love. I love you endlessly.</p>
+                        <br>
+                        <p style="text-align: right; font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: #ff3333;">
+                            Forever yours,<br>❤️
+                        </p>
+                    </div>
                 </div>
 
                 <div class="flap-top"></div>
@@ -317,7 +358,6 @@
     </div>
 
     <script>
-        // Elements
         const screenIntro = document.getElementById('screen-intro');
         const screenEnvelope = document.getElementById('screen-envelope');
         const tapMeBtn = document.getElementById('tap-me-text');
@@ -326,20 +366,17 @@
         const letter = document.getElementById('letter');
         const instruction = document.getElementById('tap-instruction');
 
-        // State Tracking
         let isEnvelopeOpen = false;
 
-        // 1. "TAP ME" -> Show Envelope
+        // 1. Transition to Envelope
         tapMeBtn.addEventListener('click', () => {
             screenIntro.classList.remove('active');
             screenEnvelope.classList.add('active');
         });
 
-        // 2. Swipe/Click to Open Envelope
-        // Click fallback for desktop
+        // 2. Open Envelope
         stamp.addEventListener('click', openEnvelope);
 
-        // Swipe logic for mobile
         let startY = 0;
         let endY = 0;
         
@@ -349,54 +386,64 @@
 
         screenEnvelope.addEventListener('touchend', e => {
             endY = e.changedTouches[0].screenY;
-            handleSwipe();
-        }, {passive: true});
-
-        function handleSwipe() {
-            // Swipe UP (startY is greater than endY)
             if (startY - endY > 50 && !isEnvelopeOpen) {
                 openEnvelope();
             }
-        }
+        }, {passive: true});
 
         function openEnvelope() {
             isEnvelopeOpen = true;
             scene.classList.add('is-slanted');
             
-            // Show "Tap the letter" text after the flap animation finishes
             setTimeout(() => {
                 instruction.classList.add('show');
-            }, 1000);
+            }, 1200);
         }
 
-        // 3. Tap Letter -> Read Mode & Heart Effects
+        // 3. Read Letter & Trigger Bubbles
         letter.addEventListener('click', () => {
             if (isEnvelopeOpen && !scene.classList.contains('is-reading')) {
                 scene.classList.add('is-reading');
                 scene.classList.remove('is-slanted');
-                createHearts();
+                createBubbleHearts();
             }
         });
 
-        // Heart Effect Generator
-        function createHearts() {
-            for (let i = 0; i < 30; i++) {
+        // 4. Interactive 3D Tilt for Letter (Desktop)
+        document.addEventListener('mousemove', (e) => {
+            if (scene.classList.contains('is-reading') && window.innerWidth > 768) {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 40;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 40;
+                // Add subtle tilt to the letter based on mouse position
+                letter.style.transform = `translateY(0) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            }
+        });
+
+        // Bubble Heart Generator
+        function createBubbleHearts() {
+            for (let i = 0; i < 40; i++) {
                 setTimeout(() => {
-                    const heart = document.createElement('div');
-                    heart.innerHTML = '❤️';
-                    heart.classList.add('heart');
+                    const bubble = document.createElement('div');
+                    bubble.classList.add('bubble-heart');
                     
-                    // Randomize position and animation duration
-                    heart.style.left = Math.random() * 100 + 'vw';
-                    heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                    // Randomize size, position, duration, and horizontal drift
+                    const size = Math.random() * 40 + 30; // Between 30px and 70px
+                    bubble.style.width = `${size}px`;
+                    bubble.style.height = `${size}px`;
                     
-                    document.body.appendChild(heart);
+                    bubble.style.left = Math.random() * 100 + 'vw';
                     
-                    // Cleanup element after animation
+                    // CSS Variables for animation
+                    bubble.style.setProperty('--duration', (Math.random() * 3 + 4) + 's');
+                    bubble.style.setProperty('--drift', (Math.random() * 100 - 50) + 'px');
+                    
+                    document.body.appendChild(bubble);
+                    
+                    // Cleanup
                     setTimeout(() => {
-                        heart.remove();
-                    }, 5000);
-                }, i * 100); // Stagger heart creation
+                        bubble.remove();
+                    }, 8000);
+                }, i * 150); // Stagger the bubbles slightly longer for a continuous flow
             }
         }
     </script>
