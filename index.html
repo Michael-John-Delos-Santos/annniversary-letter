@@ -282,33 +282,21 @@
             display: none;
         }
 
-        /* --- Bubble Hearts Particle Effect --- */
-        .bubble-heart {
+        /* --- Classic Hearts Particle Effect --- */
+        .heart {
             position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), rgba(255, 50, 50, 0.1), transparent);
-            box-shadow: inset -5px -5px 15px rgba(255, 0, 0, 0.1), 0 0 10px rgba(255, 50, 50, 0.2);
-            backdrop-filter: blur(2px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: rgba(255, 50, 50, 0.8);
-            text-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+            font-size: 1.8rem;
+            color: #ff3333;
+            user-select: none;
             pointer-events: none;
-            animation: floatBubble var(--duration) ease-in forwards;
+            animation: floatUp var(--duration) ease-in forwards;
             z-index: 20;
+            filter: drop-shadow(0 0 8px rgba(255, 51, 51, 0.4));
         }
 
-        .bubble-heart::before {
-            content: '❤️';
-            font-size: 50%; /* Heart is scaled to fit inside bubble */
-        }
-
-        @keyframes floatBubble {
-            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100vh) scale(1.5) translateX(var(--drift)); opacity: 0; }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
         }
 
         /* Desktop Adjustments */
@@ -400,12 +388,12 @@
             }, 1200);
         }
 
-        // 3. Read Letter & Trigger Bubbles
+        // 3. Read Letter & Trigger Hearts
         letter.addEventListener('click', () => {
             if (isEnvelopeOpen && !scene.classList.contains('is-reading')) {
                 scene.classList.add('is-reading');
                 scene.classList.remove('is-slanted');
-                createBubbleHearts();
+                createHearts();
             }
         });
 
@@ -419,31 +407,25 @@
             }
         });
 
-        // Bubble Heart Generator
-        function createBubbleHearts() {
+        // Classic Heart Generator
+        function createHearts() {
             for (let i = 0; i < 40; i++) {
                 setTimeout(() => {
-                    const bubble = document.createElement('div');
-                    bubble.classList.add('bubble-heart');
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '❤️';
+                    heart.classList.add('heart');
                     
-                    // Randomize size, position, duration, and horizontal drift
-                    const size = Math.random() * 40 + 30; // Between 30px and 70px
-                    bubble.style.width = `${size}px`;
-                    bubble.style.height = `${size}px`;
+                    // Randomize position and animation duration
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.setProperty('--duration', (Math.random() * 2 + 3) + 's');
                     
-                    bubble.style.left = Math.random() * 100 + 'vw';
+                    document.body.appendChild(heart);
                     
-                    // CSS Variables for animation
-                    bubble.style.setProperty('--duration', (Math.random() * 3 + 4) + 's');
-                    bubble.style.setProperty('--drift', (Math.random() * 100 - 50) + 'px');
-                    
-                    document.body.appendChild(bubble);
-                    
-                    // Cleanup
+                    // Cleanup element after animation
                     setTimeout(() => {
-                        bubble.remove();
-                    }, 8000);
-                }, i * 150); // Stagger the bubbles slightly longer for a continuous flow
+                        heart.remove();
+                    }, 5000);
+                }, i * 100); // Stagger heart creation
             }
         }
     </script>
