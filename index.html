@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Surprise Anniversary Letter</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400&display=swap');
+        /* Premium Font Pairing: Dancing Script for accents, Cormorant Garamond for body */
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Dancing+Script:wght@700&display=swap');
 
         :root {
-            --bg-color: #0a0a0a; /* Deep black background */
-            --env-dark: #4a0000; /* Dark crimson */
-            --env-light: #730000; /* Medium crimson */
-            --env-flap: #5e0000;
-            --letter-bg: #1a1a1a; /* Dark charcoal for the letter */
-            --text-color: #ffb3b3; /* Soft red/pink text */
-            --text-heading: #ff3333; /* Bright red heading */
+            --bg-color: #050505; 
+            --env-dark: #3a0000; 
+            --env-light: #5c0000; 
+            --env-flap: #470000;
+            --letter-bg: #151515; 
+            --text-color: #e6b8b8; 
+            --text-heading: #ff4d4d; 
             --gold: #b38b22;
         }
 
@@ -26,8 +27,8 @@
 
         body {
             background-color: var(--bg-color);
-            background-image: radial-gradient(circle at center, #1a0000 0%, #000000 100%);
-            font-family: 'Poppins', sans-serif;
+            background-image: radial-gradient(circle at center, #150000 0%, #000000 100%);
+            font-family: 'Cormorant Garamond', serif;
             height: 100vh;
             width: 100vw;
             overflow: hidden;
@@ -47,7 +48,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: opacity 1s ease, visibility 1s ease;
+            transition: opacity 1.5s ease, visibility 1.5s ease;
             opacity: 0;
             visibility: hidden;
         }
@@ -63,15 +64,15 @@
             font-size: 4rem;
             color: var(--text-heading);
             cursor: pointer;
-            text-shadow: 0 0 15px rgba(255, 51, 51, 0.5);
-            animation: pulse 2s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(255, 51, 51, 0.4);
+            animation: pulse 2.5s ease-in-out infinite;
             padding: 20px;
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); text-shadow: 0 0 15px rgba(255, 51, 51, 0.5); }
-            50% { transform: scale(1.05); text-shadow: 0 0 25px rgba(255, 51, 51, 0.8); }
-            100% { transform: scale(1); text-shadow: 0 0 15px rgba(255, 51, 51, 0.5); }
+            0% { transform: scale(1); text-shadow: 0 0 15px rgba(255, 51, 51, 0.4); }
+            50% { transform: scale(1.03); text-shadow: 0 0 30px rgba(255, 51, 51, 0.7); }
+            100% { transform: scale(1); text-shadow: 0 0 15px rgba(255, 51, 51, 0.4); }
         }
 
         /* --- Screen 2 & 3: Envelope & Letter --- */
@@ -81,7 +82,7 @@
             max-width: 450px;
             height: 280px;
             transform-style: preserve-3d;
-            transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 1.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .envelope {
@@ -89,15 +90,15 @@
             width: 100%;
             height: 100%;
             background: var(--env-dark);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
             border-radius: 4px;
+            /* Subtle paper texture for the envelope */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
         }
 
-        /* Envelope Flaps */
         .flap-left {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             background: var(--env-light);
             clip-path: polygon(0 0, 50% 50%, 0 100%);
             z-index: 3;
@@ -105,8 +106,7 @@
 
         .flap-right {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             background: var(--env-light);
             clip-path: polygon(100% 0, 50% 50%, 100% 100%);
             z-index: 3;
@@ -114,45 +114,60 @@
 
         .flap-bottom {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            background: #800000;
+            width: 100%; height: 100%;
+            background: #6b0000;
             clip-path: polygon(0 100%, 50% 50%, 100% 100%);
             z-index: 4;
         }
 
         .flap-top {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             background: var(--env-flap);
             clip-path: polygon(0 0, 50% 50%, 100% 0);
             z-index: 5;
             transform-origin: top;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0s 0.4s;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), z-index 0s 0.5s;
         }
 
-        /* Stamp */
+        /* 3D Wax Seal */
         .stamp {
             position: absolute;
-            top: 60%;
-            left: 50%;
+            top: 58%; left: 50%;
             transform: translate(-50%, -50%);
-            background: radial-gradient(circle, var(--gold), #8a6912);
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
+            /* Deep wax red */
+            background: #660000;
+            width: 70px; height: 70px;
+            /* Slightly irregular border radius for a melted look */
+            border-radius: 48% 52% 51% 49% / 51% 48% 52% 49%;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
-            font-size: 0.75rem;
-            font-weight: bold;
-            color: #2a2a2a;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5), inset 0 0 5px rgba(255,255,255,0.3);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-style: italic;
+            color: #ffcccc;
+            /* Complex shadows to mimic 3D wax */
+            box-shadow: 
+                inset 0 0 10px rgba(0,0,0,0.9), 
+                inset 2px 2px 5px rgba(255,255,255,0.2), 
+                0 5px 15px rgba(0,0,0,0.8);
+            border: 2px solid #4d0000;
             z-index: 6;
             cursor: pointer;
-            transition: opacity 0.4s ease, transform 0.2s ease;
+            transition: opacity 0.5s ease, transform 0.3s ease;
+        }
+
+        /* Inner ring of the wax seal */
+        .stamp::before {
+            content: '';
+            position: absolute;
+            width: 75%; height: 75%;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
         }
 
         .stamp:hover {
@@ -162,69 +177,87 @@
         /* Letter */
         .letter {
             position: absolute;
-            bottom: 5px;
-            left: 5%;
-            width: 90%;
-            height: 95%;
-            background: var(--letter-bg);
-            border: 1px solid #333;
+            bottom: 5px; left: 5%;
+            width: 90%; height: 95%;
+            background-color: var(--letter-bg);
+            /* SVG Noise for Realistic Matte Paper Texture */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E");
+            border: 1px solid #2a2a2a;
             z-index: 2;
-            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 20px rgba(0,0,0,0.6);
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            border-radius: 5px;
+            border-radius: 3px;
+            /* Variables for Dynamic Lighting */
+            --mouse-x: 50%;
+            --mouse-y: 50%;
+        }
+
+        /* Dynamic Light/Foil Glare overlay */
+        .letter::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(
+                circle 400px at var(--mouse-x) var(--mouse-y), 
+                rgba(255, 255, 255, 0.08) 0%, 
+                transparent 80%
+            );
+            pointer-events: none;
+            z-index: 15;
+            transition: opacity 0.3s;
+            opacity: 0; /* Hidden until open */
         }
 
         .letter-content {
-            padding: 20px;
+            padding: 30px;
             opacity: 0;
-            transition: opacity 1s 0.6s;
+            transition: opacity 1.5s 0.8s;
             height: 100%;
             overflow-y: auto;
-            /* Custom scrollbar for dark theme */
             scrollbar-width: thin;
-            scrollbar-color: var(--env-dark) var(--letter-bg);
+            scrollbar-color: var(--env-dark) transparent;
         }
 
-        .letter-content::-webkit-scrollbar { width: 6px; }
-        .letter-content::-webkit-scrollbar-track { background: var(--letter-bg); }
+        .letter-content::-webkit-scrollbar { width: 4px; }
+        .letter-content::-webkit-scrollbar-track { background: transparent; }
         .letter-content::-webkit-scrollbar-thumb { background-color: var(--env-dark); border-radius: 10px; }
 
         .letter-content h1 {
             font-family: 'Dancing Script', cursive;
             color: var(--text-heading);
-            margin-bottom: 15px;
-            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-size: 2.8rem;
             text-align: center;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            letter-spacing: 1px;
         }
 
         .letter-content p {
-            line-height: 1.8;
+            line-height: 1.9;
             color: var(--text-color);
-            margin-bottom: 15px;
-            font-size: 1.05rem;
+            margin-bottom: 18px;
+            font-size: 1.15rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
 
         .instruction {
             position: absolute;
-            top: 40%;
-            left: 50%;
+            top: 35%; left: 50%;
             transform: translate(-50%, -50%);
             font-family: 'Dancing Script', cursive;
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: var(--text-heading);
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.8s ease;
             pointer-events: none;
             white-space: nowrap;
-            text-shadow: 0 0 10px rgba(0,0,0,0.8);
+            text-shadow: 0 0 15px rgba(0,0,0,0.9);
         }
 
         /* --- States --- */
-        /* State 2: Envelope Slanted */
         .scene.is-slanted {
             transform: rotateX(55deg) rotateZ(-15deg) scale(1.15) translateY(40px);
         }
@@ -243,7 +276,7 @@
             transform: translateY(-90px);
             cursor: pointer;
             z-index: 4; 
-            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
         }
         
         .scene.is-slanted .instruction.show {
@@ -254,23 +287,26 @@
             transform: translateY(-100px);
         }
 
-        /* State 3: Reading */
         .scene.is-reading {
             transform: rotateX(0deg) rotateZ(0deg) scale(1) translateY(0);
         }
 
         .scene.is-reading .letter {
             transform: translateY(0);
-            bottom: -15vh; 
+            bottom: -10vh; 
             left: -5vw;
             width: 100vw;
-            height: 80vh; 
-            max-height: 85vh;
-            padding: 30px;
+            height: 85vh; 
+            max-height: 90vh;
+            padding: 20px;
             z-index: 10;
             cursor: auto;
-            border-radius: 10px;
-            border: 1px solid #400; /* Subtle red border */
+            border-radius: 8px;
+            border: 1px solid rgba(255, 77, 77, 0.2); 
+        }
+
+        .scene.is-reading .letter::after {
+            opacity: 1; /* Reveal lighting */
         }
 
         .scene.is-reading .letter-content {
@@ -282,7 +318,7 @@
             display: none;
         }
 
-        /* --- Classic Hearts Particle Effect --- */
+        /* --- Classic Hearts --- */
         .heart {
             position: absolute;
             font-size: 1.8rem;
@@ -291,7 +327,7 @@
             pointer-events: none;
             animation: floatUp var(--duration) ease-in forwards;
             z-index: 20;
-            filter: drop-shadow(0 0 8px rgba(255, 51, 51, 0.4));
+            filter: drop-shadow(0 0 10px rgba(255, 51, 51, 0.5));
         }
 
         @keyframes floatUp {
@@ -304,14 +340,19 @@
             .scene.is-reading .letter {
                 left: -20vw;
                 width: 130vw;
-                height: 70vh;
+                height: 75vh;
                 max-width: 800px;
-                border-radius: 8px;
             }
+            .letter-content { padding: 50px; }
+            .letter-content p { font-size: 1.3rem; }
         }
     </style>
 </head>
 <body>
+
+    <audio id="bg-music" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
 
     <div id="screen-intro" class="screen active">
         <div id="tap-me-text">TAP ME</div>
@@ -332,15 +373,15 @@
                         <p>Another year of laughter, shared dreams, and endless support. Every moment with you is a treasure, and I wanted to surprise you with something a little different this year.</p>
                         <p>Thank you for all the love and for making every day brighter. You mean the absolute world to me.</p>
                         <p>Here's to many more years, more memories, and more love. I love you endlessly.</p>
-                        <br>
-                        <p style="text-align: right; font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: #ff3333;">
+                        <br><br>
+                        <p style="text-align: right; font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: #ff4d4d; margin-right: 20px;">
                             Forever yours,<br>❤️
                         </p>
                     </div>
                 </div>
 
                 <div class="flap-top"></div>
-                <div class="stamp" id="stamp">Swipe<br>to open</div>
+                <div class="stamp" id="stamp">Swipe<br>To<br>Break</div>
             </div>
         </div>
     </div>
@@ -353,16 +394,15 @@
         const stamp = document.getElementById('stamp');
         const letter = document.getElementById('letter');
         const instruction = document.getElementById('tap-instruction');
+        const bgMusic = document.getElementById('bg-music');
 
         let isEnvelopeOpen = false;
 
-        // 1. Transition to Envelope
         tapMeBtn.addEventListener('click', () => {
             screenIntro.classList.remove('active');
             screenEnvelope.classList.add('active');
         });
 
-        // 2. Open Envelope
         stamp.addEventListener('click', openEnvelope);
 
         let startY = 0;
@@ -383,12 +423,15 @@
             isEnvelopeOpen = true;
             scene.classList.add('is-slanted');
             
+            // Play ambient audio (Browsers require user interaction first, which the click/swipe satisfies)
+            bgMusic.volume = 0.4; // Set volume to 40%
+            bgMusic.play().catch(e => console.log("Audio play failed or file missing"));
+
             setTimeout(() => {
                 instruction.classList.add('show');
             }, 1200);
         }
 
-        // 3. Read Letter & Trigger Hearts
         letter.addEventListener('click', () => {
             if (isEnvelopeOpen && !scene.classList.contains('is-reading')) {
                 scene.classList.add('is-reading');
@@ -397,17 +440,29 @@
             }
         });
 
-        // 4. Interactive 3D Tilt for Letter (Desktop)
+        // Interactive 3D Tilt AND Dynamic Lighting (Foil Effect)
         document.addEventListener('mousemove', (e) => {
-            if (scene.classList.contains('is-reading') && window.innerWidth > 768) {
-                const xAxis = (window.innerWidth / 2 - e.pageX) / 40;
-                const yAxis = (window.innerHeight / 2 - e.pageY) / 40;
-                // Add subtle tilt to the letter based on mouse position
-                letter.style.transform = `translateY(0) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            if (scene.classList.contains('is-reading')) {
+                // 1. 3D Tilt (Desktop only)
+                if (window.innerWidth > 768) {
+                    const xAxis = (window.innerWidth / 2 - e.pageX) / 50;
+                    const yAxis = (window.innerHeight / 2 - e.pageY) / 50;
+                    letter.style.transform = `translateY(0) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+                }
+
+                // 2. Dynamic Lighting (Updates the CSS variables for the glare gradient)
+                const rect = letter.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                
+                // Only update if mouse is relatively near or over the letter
+                if (x >= -20 && x <= 120 && y >= -20 && y <= 120) {
+                    letter.style.setProperty('--mouse-x', `${x}%`);
+                    letter.style.setProperty('--mouse-y', `${y}%`);
+                }
             }
         });
 
-        // Classic Heart Generator
         function createHearts() {
             for (let i = 0; i < 40; i++) {
                 setTimeout(() => {
@@ -415,17 +470,15 @@
                     heart.innerHTML = '❤️';
                     heart.classList.add('heart');
                     
-                    // Randomize position and animation duration
                     heart.style.left = Math.random() * 100 + 'vw';
                     heart.style.setProperty('--duration', (Math.random() * 2 + 3) + 's');
                     
                     document.body.appendChild(heart);
                     
-                    // Cleanup element after animation
                     setTimeout(() => {
                         heart.remove();
                     }, 5000);
-                }, i * 100); // Stagger heart creation
+                }, i * 100); 
             }
         }
     </script>
