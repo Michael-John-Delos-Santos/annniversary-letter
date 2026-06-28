@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise Anniversary Letter</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400&display=swap');
+
+        :root {
+            --bg-color: #ffe6e9;
+            --env-dark: #c0392b;
+            --env-light: #e74c3c;
+            --env-flap: #d35400;
+            --letter-bg: #fffbf2;
+            --text-color: #2c3e50;
+            --gold: #f1c40f;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1200px;
+        }
+
+        /* --- Screens --- */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .screen.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* --- Screen 1: Intro --- */
+        #tap-me-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: var(--env-dark);
+            cursor: pointer;
+            animation: pulse 1.5s infinite;
+            padding: 20px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- Screen 2 & 3: Envelope & Letter --- */
+        .scene {
+            position: relative;
+            width: 90vw;
+            max-width: 400px;
+            height: 250px;
+            transform-style: preserve-3d;
+            transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .envelope {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--env-dark);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Envelope Flaps using Clip-Path */
+        .flap-left {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--env-light);
+            clip-path: polygon(0 0, 50% 50%, 0 100%);
+            z-index: 3;
+        }
+
+        .flap-right {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--env-light);
+            clip-path: polygon(100% 0, 50% 50%, 100% 100%);
+            z-index: 3;
+        }
+
+        .flap-bottom {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #d94232;
+            clip-path: polygon(0 100%, 50% 50%, 100% 100%);
+            z-index: 4;
+        }
+
+        .flap-top {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--env-flap);
+            clip-path: polygon(0 0, 50% 50%, 100% 0);
+            z-index: 5;
+            transform-origin: top;
+            transition: transform 0.8s ease, z-index 0s 0.4s;
+        }
+
+        /* Stamp */
+        .stamp {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--gold);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 6;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        /* Letter */
+        .letter {
+            position: absolute;
+            bottom: 5px;
+            left: 5%;
+            width: 90%;
+            height: 95%;
+            background: var(--letter-bg);
+            z-index: 2;
+            transition: transform 1s ease, width 1s ease, height 1s ease, left 1s ease, bottom 1s ease, padding 1s ease;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border-radius: 5px;
+        }
+
+        .letter-content {
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 1s 0.5s;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .letter-content h1 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--env-dark);
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+            text-align: center;
+        }
+
+        .letter-content p {
+            line-height: 1.6;
+            color: var(--text-color);
+            margin-bottom: 15px;
+        }
+
+        .instruction {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: var(--env-dark);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        /* --- State Classes --- */
+        /* State 2: Envelope Open & Slanted */
+        .scene.is-slanted {
+            transform: rotateX(55deg) rotateZ(-15deg) scale(1.1) translateY(50px);
+        }
+
+        .scene.is-slanted .flap-top {
+            transform: rotateX(180deg);
+            z-index: 1; 
+        }
+
+        .scene.is-slanted .stamp {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .scene.is-slanted .letter {
+            transform: translateY(-80px);
+            cursor: pointer;
+            z-index: 4; /* Move in front of bottom flap */
+        }
+        
+        .scene.is-slanted .instruction.show {
+            opacity: 1;
+        }
+
+        /* State 3: Reading Letter */
+        .scene.is-reading {
+            transform: rotateX(0deg) rotateZ(0deg) scale(1) translateY(0);
+        }
+
+        .scene.is-reading .letter {
+            transform: translateY(0);
+            bottom: -20vh; /* Adjust based on mobile vs desktop */
+            left: -5vw;
+            width: 100vw;
+            height: 85vh; /* Responsive to content */
+            max-height: 90vh;
+            padding: 20px;
+            z-index: 10;
+            cursor: auto;
+            border-radius: 15px;
+        }
+
+        .scene.is-reading .letter-content {
+            opacity: 1;
+        }
+        
+        .scene.is-reading .instruction {
+            opacity: 0;
+            display: none;
+        }
+
+        /* --- Hearts Particle Effect --- */
+        .heart {
+            position: absolute;
+            font-size: 1.5rem;
+            color: #e74c3c;
+            user-select: none;
+            pointer-events: none;
+            animation: floatUp 4s ease-in forwards;
+            z-index: 20;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+        }
+
+        /* Mobile Adjustments */
+        @media (min-width: 768px) {
+            .scene.is-reading .letter {
+                left: -20vw;
+                width: 130vw;
+                height: 70vh;
+                max-width: 800px;
+                border-radius: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="screen-intro" class="screen active">
+        <div id="tap-me-text">TAP ME</div>
+    </div>
+
+    <div id="screen-envelope" class="screen">
+        <div class="scene" id="scene">
+            <div class="envelope">
+                <div class="flap-left"></div>
+                <div class="flap-right"></div>
+                <div class="flap-bottom"></div>
+                
+                <div class="letter" id="letter">
+                    <div class="instruction" id="tap-instruction">Tap the letter</div>
+                    <div class="letter-content">
+                        <h1>Happy Anniversary!</h1>
+                        <p>My dearest,</p>
+                        <p>I wanted to surprise you with something a little different this year. Every day with you feels like a beautiful adventure, and I am so grateful to have you by my side.</p>
+                        <p>Thank you for all the love, the laughs, and the endless support. You mean the absolute world to me.</p>
+                        <p>Here's to many more years, more memories, and more love.</p>
+                        <p>Forever yours,<br>❤️</p>
+                        </div>
+                </div>
+
+                <div class="flap-top"></div>
+                <div class="stamp" id="stamp">Swipe<br>to open</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Elements
+        const screenIntro = document.getElementById('screen-intro');
+        const screenEnvelope = document.getElementById('screen-envelope');
+        const tapMeBtn = document.getElementById('tap-me-text');
+        const scene = document.getElementById('scene');
+        const stamp = document.getElementById('stamp');
+        const letter = document.getElementById('letter');
+        const instruction = document.getElementById('tap-instruction');
+
+        // State Tracking
+        let isEnvelopeOpen = false;
+
+        // 1. "TAP ME" -> Show Envelope
+        tapMeBtn.addEventListener('click', () => {
+            screenIntro.classList.remove('active');
+            screenEnvelope.classList.add('active');
+        });
+
+        // 2. Swipe/Click to Open Envelope
+        // Click fallback for desktop
+        stamp.addEventListener('click', openEnvelope);
+
+        // Swipe logic for mobile
+        let startY = 0;
+        let endY = 0;
+        
+        screenEnvelope.addEventListener('touchstart', e => {
+            startY = e.changedTouches[0].screenY;
+        }, {passive: true});
+
+        screenEnvelope.addEventListener('touchend', e => {
+            endY = e.changedTouches[0].screenY;
+            handleSwipe();
+        }, {passive: true});
+
+        function handleSwipe() {
+            // Swipe UP (startY is greater than endY)
+            if (startY - endY > 50 && !isEnvelopeOpen) {
+                openEnvelope();
+            }
+        }
+
+        function openEnvelope() {
+            isEnvelopeOpen = true;
+            scene.classList.add('is-slanted');
+            
+            // Show "Tap the letter" text after the flap animation finishes
+            setTimeout(() => {
+                instruction.classList.add('show');
+            }, 1000);
+        }
+
+        // 3. Tap Letter -> Read Mode & Heart Effects
+        letter.addEventListener('click', () => {
+            if (isEnvelopeOpen && !scene.classList.contains('is-reading')) {
+                scene.classList.add('is-reading');
+                scene.classList.remove('is-slanted');
+                createHearts();
+            }
+        });
+
+        // Heart Effect Generator
+        function createHearts() {
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '❤️';
+                    heart.classList.add('heart');
+                    
+                    // Randomize position and animation duration
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                    
+                    document.body.appendChild(heart);
+                    
+                    // Cleanup element after animation
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 5000);
+                }, i * 100); // Stagger heart creation
+            }
+        }
+    </script>
+</body>
+</html>
